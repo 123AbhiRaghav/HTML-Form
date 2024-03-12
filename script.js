@@ -1,41 +1,59 @@
-var formSubmit=document.querySelector('#form')
+var row = 1;
 
-formSubmit.addEventListener('submit',(event) => {
-event.preventDefault()
-var firstName = document.querySelector('#first-Name')
-var lastName = document.querySelector('#last-Name')
-var address = document.querySelector('#address')
-var pincode = document.querySelector('#pincode')
-var gender = document.querySelector('#gender')
-var food = document.querySelector('#food')
-var state = document.querySelector('#state')
-var country = document.querySelector('#country')
+var btn = document.getElementById("submit")
 
-var array = [firstName,lastName,address,pincode,gender,food,state,country]
+btn.addEventListener("click", displayElement)
 
-var tableRow = document.createElement('tr')
-var count = 0;
-for(var i = 0; i < array.length; i++){
-  if(array[i].value  != ''){
-    var tableData = document.createElement('td')
-    tableData.innerHTML=array[i].value
-    tableRow.append(tableData)
-    count++
-  
-  }
-  
+
+function displayElement(event){
+    event.preventDefault();
+    var name = document.getElementById("first-name").value;
+    var lastname = document.getElementById("last-name").value;
+    var address = document.getElementById("address").value;
+    var State = document.getElementById("State").value;
+    var Country = document.getElementById("Country").value;
+    var pincode = document.getElementById("pincode").value;
+    var gender = document.querySelector(`input[name="gender"]:checked`).value;
+    var foodList = [];
+    var list = document.getElementsByName(`flist`)
+    for(var i =0; i<list.length; i++){
+        if(list[i].checked){
+            foodList.push(list[i].value);
+        }
+    }
+
+    if(foodList.length<2)
+    {
+        alert("please select two food items")
+        return;
+    }
+
+    if(!name || !lastname || !address || !State || !Country || !pincode ||!gender || !foodList)
+    {
+        alert("please fill all the required fields")
+        return;
+    }
+   var table = document.getElementById(`table`)
+   var newrow = table.insertRow(row)
+   var cell1 = newrow.insertCell(0);
+   cell1.textContent = name;
+   var cell2 = newrow.insertCell(1);
+   cell2.textContent = lastname
+   var cell3 = newrow.insertCell(2);
+   cell3.textContent = address
+   var cell4 = newrow.insertCell(3);
+   cell4.textContent = State
+   var cell5 = newrow.insertCell(4);
+   cell5.textContent = Country
+   var cell6 = newrow.insertCell(5);
+   cell6.textContent = pincode;
+   var cell7 = newrow.insertCell(6);
+   cell7.textContent = gender
+   var cell8 = newrow.insertCell(7);
+   cell8.textContent = foodList
+   row++;
+   let form = document.getElementById("form")
+   form.reset();
+
+
 }
-if(count > 2) {
-  document.querySelector('tbody').append(tableRow)
-}else{
-  alert("Must choose at least 2 out of 5 options")
-}
-
-
-
-
-for(let i of array){
-  i.value = ''
-}
-
-})
